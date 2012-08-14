@@ -2,7 +2,7 @@
 
 \noind On souhaite pouvoir décrire quel est le fonctionnement attendu du programme. On utilise pour cela les résultats des calculs de prédicats au niveau de la syntaxe. On donne un sens à une phrase logique en lui adjuvant un ou plusieurs modèle. Tout ce qui va être dit dans cette section n'est qu'une mise en commun de notations. Seule la fin de la dernière partie de cette section est utile au sens où elle donne l'implémentation JAVA de la théorie.
 
-\subsubsection{Syntaxe}
+\subsection{Syntaxe}
 
 \noind Il est possible d'écrire des phrases mathématique telles que 
 
@@ -78,7 +78,10 @@ Forall("x",
 \textit{Pour tout entier $x$, $x$ pair implique $x+1$ impair.}
 \end{center}
 
-\subsubsection{Sémantique}
+\subsection{Sémantique}
+
+\subsubsection{Interprétation d'une formule}
+
 
 \noind On définit d'abord $\d$ un ensemble de domaines et on pose
 $$\forall n \in \N, \; \f_{\d, n} = \displaystyle{\bigcup_{E \in \d^n,F \in \d}} F^{E} \; \mathrm{et} \; \f'_{\d,n} = \displaystyle{\bigcup_{E \in \d^n}} \{0,1\}^{E}.$$
@@ -136,6 +139,9 @@ $$ I \valide F \Leftrightarrow \forall \sigma \in \Upsilon, \; I \valide_\sigma 
 
 \noind On sait maintenant dire qu'une formule est valide, dans une certaine interprétation, de manière \textit{empirique}. En effet, la preuve de validité passe ici par l'énumération exhaustive de tous les cas possibles pour une interprétation donnée. On a choisi cette méthode de preuve, car on dispose d'un générateur de variables aléatoires. Comme de toute façon il est rarement possible de tester tous les cas, on part du principe qu'effectuer des tests sur des exemples suffisamment communs et représentatifs suffit pour avoir une assez grande certitude que le programme que l'on tests fonctionne\footnote{Cela s'apparente à une machine de \textit{Monte-Carlo} qui, renvoyant un contre-exemple prouve que le programme est faux, et sinon donne une certaine probabilité que le programme soit juste}.
 
+\noind Ainsi, sur notre exemple, on souhaite montrer que l'interprétation valide la formule.
+
+\subsubsection{Implémentation java}
 
 
 

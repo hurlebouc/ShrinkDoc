@@ -29,6 +29,9 @@
 \newcommand{\imp}[1]{\textit{\textbf{#1}} }
 
 \definecolor{lightgrey}{gray}{0.75}
+\definecolor{gris}{rgb}{0.9,0.9,0.9} 
+\definecolor{bleuclair}{rgb}{0.7,0.7,1}
+\lstset{ basicstyle={\ttfamily \small}, language=c, keywordstyle=\color{blue}, frame=lines, backgroundcolor=\color{gris}, breaklines = true, showstringspaces=false} 
 
  
 \newcommand{\R}{\mathbb{R}}
@@ -60,6 +63,8 @@
 \newcommand{\e}{\mathrm{e}}
 \def\jfrac#1#2{\raisebox{2pt}{$#1$}/\raisebox{-2pt}{$#2$}}   %%%%  jolie fraction
 
+
+
 \pagestyle{fancy}
 \lhead{ \textit{QUICKCHECK} } 
   %\chead{ }
@@ -79,9 +84,12 @@
 \begin{document}
 
 \section{Génération de termes}
-	\subsection{Vocabulaire utilisé}
-	\subsection{Présentation de l'algorithme}
-	\subsection{Utilisation des termes générés dans un contexte de  vérification de programme}
+	\subsection{Vocabulaire utilisé} \input{generation/voc.tex}
+	\subsection{Présentation de l'algorithme} \input{generation/algo.tex}
+	\subsection{Utilisation des termes générés dans un contexte de  vérification de programme}\input{generation/verif.tex}
+	
+\section{Réduction des contre-exemples}
+
 	
 	
 

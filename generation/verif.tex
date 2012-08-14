@@ -62,7 +62,44 @@ Forall("x",
 \textit{Pour tout entier $x$, $x$ pair implique $x+1$ impair.}
 \end{center}
 
-\subsubsection{Semantique}
+\subsubsection{Sémantique}
+
+\noind On définit d'abord $\D$ un ensemble de domaines et on pose
+$$\forall n \in \N, \; \F_{\D, n} = \displaystyle{\bigcup_{E \in \D^n,F \in \D}} F^{E} \; \mathrm{et} \; \F'_{\D,n} = \displaystyle{\bigcup_{E \in \D^n}} \{0,1\}^{E}.$$
+
+\noind $\F_{\D,n}$ est donc l'ensemble des fonctions d'arité $n$ dont le codomaine et le domaine sont des éléments de $\D$ et de $\D^n$, et $\F'_{\D, n}$ est l'ensemble des fonctions d'arité $n$ de codomaine $\{0,1\}$ et de domaine dans $\D^{n}$.
+
+\noind On peut interpréter une formule syntaxique issue d'un ensemble de signatures $\sig$ et de prédicats $\pre$ en lui associant une \imp{interprétation}\!, qui est la connaissance d'un couple $(\mathcal{D}, \ent{\cdot})$ où
+\begin{itemize}
+\item $\mathcal{D}$ est un ensemble de domaine
+\item $\ent{\cdot}$ est une fonction telle que 
+
+$$ \forall s \in \sig, \; \ent{s} \in \F_{\D,n}, \; \mbox{où $s$ est d'arité $n$}$$
+$$ \forall P \in \pre, \; \ent{P} \in \F'_{\D, n}, \; \mbox{où $P$ est d'arité $n$}.$$
+
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,6 +1,6 @@
 % !TEX root = ../shrink.tex
 
-\noind On souhaite pouvoir décrire quel est le fonctionnement attendu du programme. On utilise pour cela les résultats des calculs de prédicats au niveau de la syntaxe. On donne un sens à une phrase logique en lui adjuvant un ou plusieurs modèle.
+\noind On souhaite pouvoir décrire quel est le fonctionnement attendu du programme. On utilise pour cela les résultats des calculs de prédicats au niveau de la syntaxe. On donne un sens à une phrase logique en lui adjuvant un ou plusieurs modèle. Tout ce qui va être dit dans cette section n'est qu'une mise en commun de notations. Seule la fin de la dernière partie de cette section est utile au sens où elle donne l'implémentation JAVA de la théorie.
 
 \subsubsection{Syntaxe}
 
@@ -27,7 +27,7 @@ L'ensembles de termes est noté $\T$.\\
 
 \noind Cette définition d'une formule se traduit facilement en \gom (listing \ref{formule}). La phrase mathématique précédente sera donc sous la forme du listing \ref{f1}.
 
-\begin{lstlisting}[caption=Définition d'une formule, label=formule, float]
+\begin{lstlisting}[caption=Définition d'une formule en \gom, label=formule, float]
  Args = ListArgs(Term*)
  
  Term = Var(name:String)
@@ -85,34 +85,43 @@ $$\forall n \in \N, \; \f_{\d, n} = \displaystyle{\bigcup_{E \in \d^n,F \in \d}}
 
 \noind $\f_{\d,n}$ est donc l'ensemble des fonctions d'arité $n$ dont le codomaine et le domaine sont des éléments de $\d$ et de $\d^n$, et $\f'_{\d, n}$ est l'ensemble des fonctions d'arité $n$ de codomaine $\{0,1\}$ et de domaine dans $\d^{n}$.
 
-\noind On peut interpréter une formule syntaxique issue d'un ensemble de signatures $\S$ et de prédicats $\P$ en lui associant une \imp{interprétation}\!, qui est la connaissance d'un couple $(\d, \ent{\cdot})$ où
+\noind On peut interpréter une formule syntaxique issue d'un ensemble de signatures $\S$ et de prédicats $\P$ en lui associant une \textit{interprétation} $I$ qui est la connaissance d'un couple $(\d_I, \ent{\cdot}_I)$ où
 \begin{itemize}
-\item $\d$ est un ensemble de domaine
-\item $\ent{\cdot}$ est une fonction telle que 
+\item $\d_I$ est un ensemble de domaine
+\item $\ent{\cdot}_I$ est une fonction telle que 
 
 
-$$ \forall s \in \S, \; \ent{s} \in \f_{\d,n}, \; \mbox{où $s$ est d'arité $n$}$$
-$$ \forall P \in \P, \; \ent{P} \in \f'_{\d, n}, \; \mbox{où $P$ est d'arité $n$}.$$
+$$ \forall s \in \S, \; \ent{s}_I \in \f_{\d_I,n}, \; \mbox{où $s$ est d'arité $n$}$$
+$$ \forall P \in \P, \; \ent{P}_I \in \f'_{\d_I, n}, \; \mbox{où $P$ est d'arité $n$}.$$
 
 \end{itemize}
 
 \noind Ainsi, si on applique ce formalisme à notre exemple, on a 
 \begin{itemize}
-\item $\d = \{\N\}$
-\item $\ent{f} : x\in \N \rightarrow x+1 \in \N$
-\item $\ent{P} : x \in \N \rightarrow 1$ si $x$ est pair et $0$ sinon
-\item $\ent{Q} : x \in \N \rightarrow 0$ si $x$ est pair et $1$ sinon.\\
+\item $\d_I = \{\N\}$
+\item $\ent{f}_I : x\in \N \rightarrow x+1 \in \N$
+\item $\ent{P}_I : x \in \N \rightarrow 1$ si $x$ est pair et $0$ sinon
+\item $\ent{Q}_I : x \in \N \rightarrow 0$ si $x$ est pair et $1$ sinon.\\
 \end{itemize}
 
 \noind On a ainsi appliqué une sémantique à notre formule mathématique.
 
 \subsubsection{Évaluation d'une formule}
 
-\noind On va traité ici la question de savoir comment, étant donné une formule et une interprétation, on peut affirmer qu'une formule est \textit{valide} ou non selon l'interprétation. On introduit alors la notion de \textit{valuation}. 
+\noind On va traité ici la question de savoir comment, étant donné une formule et une interprétation, on peut affirmer qu'une formule est \textit{valide} ou non selon l'interprétation, que l'on note $I \valide F$. On introduit alors la notion de \textit{valuation}. 
 
-\noind Une valuation $\sigma$ est une fonction à domaine fini $\{x_1, x_2, \dots,x_n \}$ où les $x_i$ sont des \textit{variables} distinctes, qui associe à chaque $x_i$
+\noind Une valuation $\sigma$ est une fonction à domaine fini $\{x_1, x_2, \dots,x_n \} \in \X^n$ où les $x_i$ sont deux à deux distinctes, qui associe à chaque $x_i$ un élément de $E \in \d$. On peut alors évaluer un terme.
+\begin{itemize}
+\item Si $x$ est un symbole de variable, $\scal{x \vert \sigma}_I = \sigma(x)$.
+\item Si $s$ est un symbole de signature d'arité $n$ et $t_1, t_2, \dots, t_n$ sont des termes, 
 
+$$\scal{s(t_1, t_2, \dots,t_n) \vert \sigma}_I = \ent{s}_I\left(\scal{t_1 \vert \sigma}_I, \scal{t_2 \vert \sigma}_I, \dots, \scal{t_n \vert \sigma}_I\right)$$
+\end{itemize}
 
+\noind On peut alors définir la validité d'une formule selon l'interprétation $I$ et la valuation $\sigma$, que l'on note $I\valide_\sigma F$.
+\begin{itemize}
+\item Si $P$ est un symbole de prédicat d'arité $n$ et $ I \valide _\sigma P$
+\end{itemize}
 
 
 

@@ -6,11 +6,28 @@
 
 \noind Il est possible d'écrire des phrases mathématique telles que 
 
-$$\forall x \in D, \; \left( P(x) \Rightarrow Q(f(x)) \right)$$
+$$\forall x \in D, \; \left( (P(x)) \Rightarrow (Q(f(x))) \right)$$
 
-\noind On utilise pour cela la syntaxe du listing \ref{formule}.
+\noind Pour formaliser la syntaxe, on se muni d'un ensemble infini $\X$ de symboles de \textit{variables} et un ensemble $\S$ de symboles de signatures. Chaque signature a une \textit{arité}. On peut alors définir la notion de termes de manière inductive :
+\begin{itemize}
+\item toute variable est un terme,
+\item toute signature d'arité 0 est un terme,
+\item si $s$ est un symbole de fonction d'arité $n$, et que $t_1, t_2, \dots, t_n$ sont des termes, alors $s(t_1, t_2, \dots, t_n)$ est un terme.
+\end{itemize}
+L'ensembles de termes est noté $\T$.\\
 
-\begin{lstlisting}[caption=Définition d'une formule, label=formule]
+\noind Enfin, on peut définir, également de manière inductive, l'ensemble $\F$ des formules : étant donné $\P$ un ensemble de symboles de prédicats et $\D$ est un ensemble de symboles de domaines, on a que
+\begin{itemize}
+\item tout prédicat d'arité 0 est une formule,
+\item si $P$ est un symbole de prédicat d'arité $n$, et que $t_1, t_2, \dots, t_n$ sont des termes, alors $P(t_1, t_2, \dots, t_n)$ est un formule,
+\item si $F_1$ et $F_2$ sont des formules, alors $(F_1) \and (F_2)$, $(F_1) \or (F_2)$ et $ (F_1) \imply (F_2)$ sont des formules,
+\item si $F$ est une formule, $\not{F}$ est une formule,
+\item si $f$ est une formule et $D$ un symbole de domaine, $\forall x \in D, \; (F)$ et $\exists x \in D, \; (F)$ sont des formules.\\
+\end{itemize}
+
+\noind Cette définition d'une formule se traduit facilement en \gom (listing \ref{formule}). La phrase mathématique précédente sera donc sous la forme du listing \ref{f1}.
+
+\begin{lstlisting}[caption=Définition d'une formule, label=formule, float]
  Args = ListArgs(Term*)
  
  Term = Var(name:String)
@@ -26,7 +43,6 @@ $$\forall x \in D, \; \left( P(x) \Rightarrow Q(f(x)) \right)$$
 
 \end{lstlisting}
 
-\noind La phrase mathématique précédente sera donc sous la forme du listing \ref{f1}.
 
 \begin{lstlisting}[caption=Exemple d'une formule, label=f1, float=htb]
 Forall("x",
@@ -57,30 +73,44 @@ Forall("x",
 )
 \end{lstlisting}
 
-\noind On peut ainsi essayer de décrire le fonctionnement d'un programme. Une fois la syntaxe écrite, il faut lui donner un sens. En effet, chaque mot qui n'est pas définit dans la grammaire doit l'être par ailleurs. Ainsi, on voudra dire par exemple que la phrase ci-dessus signifie
+\noind Une fois la syntaxe écrite, il faut lui donner un \textit{sens}. En effet, chaque mot qui n'est pas définit dans la grammaire doit l'être par ailleurs. Ainsi, on voudra dire par exemple que la phrase ci-dessus signifie
 \begin{center}
 \textit{Pour tout entier $x$, $x$ pair implique $x+1$ impair.}
 \end{center}
 
 \subsubsection{Sémantique}
 
-\noind On définit d'abord $\D$ un ensemble de domaines et on pose
-$$\forall n \in \N, \; \F_{\D, n} = \displaystyle{\bigcup_{E \in \D^n,F \in \D}} F^{E} \; \mathrm{et} \; \F'_{\D,n} = \displaystyle{\bigcup_{E \in \D^n}} \{0,1\}^{E}.$$
+\noind On définit d'abord $\d$ un ensemble de domaines et on pose
+$$\forall n \in \N, \; \f_{\d, n} = \displaystyle{\bigcup_{E \in \d^n,F \in \d}} F^{E} \; \mathrm{et} \; \f'_{\d,n} = \displaystyle{\bigcup_{E \in \d^n}} \{0,1\}^{E}.$$
 
-\noind $\F_{\D,n}$ est donc l'ensemble des fonctions d'arité $n$ dont le codomaine et le domaine sont des éléments de $\D$ et de $\D^n$, et $\F'_{\D, n}$ est l'ensemble des fonctions d'arité $n$ de codomaine $\{0,1\}$ et de domaine dans $\D^{n}$.
+\noind $\f_{\d,n}$ est donc l'ensemble des fonctions d'arité $n$ dont le codomaine et le domaine sont des éléments de $\d$ et de $\d^n$, et $\f'_{\d, n}$ est l'ensemble des fonctions d'arité $n$ de codomaine $\{0,1\}$ et de domaine dans $\d^{n}$.
 
-\noind On peut interpréter une formule syntaxique issue d'un ensemble de signatures $\sig$ et de prédicats $\pre$ en lui associant une \imp{interprétation}\!, qui est la connaissance d'un couple $(\mathcal{D}, \ent{\cdot})$ où
+\noind On peut interpréter une formule syntaxique issue d'un ensemble de signatures $\S$ et de prédicats $\P$ en lui associant une \imp{interprétation}\!, qui est la connaissance d'un couple $(\d, \ent{\cdot})$ où
 \begin{itemize}
-\item $\mathcal{D}$ est un ensemble de domaine
+\item $\d$ est un ensemble de domaine
 \item $\ent{\cdot}$ est une fonction telle que 
 
-$$ \forall s \in \sig, \; \ent{s} \in \F_{\D,n}, \; \mbox{où $s$ est d'arité $n$}$$
-$$ \forall P \in \pre, \; \ent{P} \in \F'_{\D, n}, \; \mbox{où $P$ est d'arité $n$}.$$
+
+$$ \forall s \in \S, \; \ent{s} \in \f_{\d,n}, \; \mbox{où $s$ est d'arité $n$}$$
+$$ \forall P \in \P, \; \ent{P} \in \f'_{\d, n}, \; \mbox{où $P$ est d'arité $n$}.$$
 
 \end{itemize}
 
+\noind Ainsi, si on applique ce formalisme à notre exemple, on a 
+\begin{itemize}
+\item $\d = \{\N\}$
+\item $\ent{f} : x\in \N \rightarrow x+1 \in \N$
+\item $\ent{P} : x \in \N \rightarrow 1$ si $x$ est pair et $0$ sinon
+\item $\ent{Q} : x \in \N \rightarrow 0$ si $x$ est pair et $1$ sinon.\\
+\end{itemize}
 
+\noind On a ainsi appliqué une sémantique à notre formule mathématique.
 
+\subsubsection{Évaluation d'une formule}
+
+\noind On va traité ici la question de savoir comment, étant donné une formule et une interprétation, on peut affirmer qu'une formule est \textit{valide} ou non selon l'interprétation. On introduit alors la notion de \textit{valuation}. 
+
+\noind Une valuation $\sigma$ est une fonction à domaine fini $\{x_1, x_2, \dots,x_n \}$ où les $x_i$ sont des \textit{variables} distinctes, qui associe à chaque $x_i$
 
 
 

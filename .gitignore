@@ -5,3 +5,6 @@ shrink.synctex.gz
 shrink.aux
 shrink.fls
 shrink.out
+*.log
+*.make
+*.d

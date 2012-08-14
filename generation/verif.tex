@@ -85,7 +85,7 @@ $$\forall n \in \N, \; \f_{\d, n} = \displaystyle{\bigcup_{E \in \d^n,F \in \d}}
 
 \noind $\f_{\d,n}$ est donc l'ensemble des fonctions d'arité $n$ dont le codomaine et le domaine sont des éléments de $\d$ et de $\d^n$, et $\f'_{\d, n}$ est l'ensemble des fonctions d'arité $n$ de codomaine $\{0,1\}$ et de domaine dans $\d^{n}$.
 
-\noind On peut interpréter une formule syntaxique issue d'un ensemble de signatures $\S$ et de prédicats $\P$ en lui associant une \textit{interprétation} $I$ qui est la connaissance d'un couple $(\d_I, \ent{\cdot}_I)$ où
+\noind On peut interpréter une formule syntaxique issue d'un ensemble de signatures $\S$, de prédicats $\P$ et de domaine $\D$ en lui associant une \textit{interprétation} $I$ qui est la connaissance d'un couple $(\d_I, \ent{\cdot}_I)$ où
 \begin{itemize}
 \item $\d_I$ est un ensemble de domaine
 \item $\ent{\cdot}_I$ est une fonction telle que 
@@ -93,6 +93,7 @@ $$\forall n \in \N, \; \f_{\d, n} = \displaystyle{\bigcup_{E \in \d^n,F \in \d}}
 
 $$ \forall s \in \S, \; \ent{s}_I \in \f_{\d_I,n}, \; \mbox{où $s$ est d'arité $n$}$$
 $$ \forall P \in \P, \; \ent{P}_I \in \f'_{\d_I, n}, \; \mbox{où $P$ est d'arité $n$}.$$
+$$ \forall D \in \D, \; \ent{D}_I \in \d_I.$$
 
 \end{itemize}
 
@@ -110,7 +111,7 @@ $$ \forall P \in \P, \; \ent{P}_I \in \f'_{\d_I, n}, \; \mbox{où $P$ est d'arité
 
 \noind On va traité ici la question de savoir comment, étant donné une formule et une interprétation, on peut affirmer qu'une formule est \textit{valide} ou non selon l'interprétation, que l'on note $I \valide F$. On introduit alors la notion de \textit{valuation}. 
 
-\noind Une valuation $\sigma$ est une fonction à domaine fini $\{x_1, x_2, \dots,x_n \} \in \X^n$ où les $x_i$ sont deux à deux distinctes, qui associe à chaque $x_i$ un élément de $E \in \d$. On peut alors évaluer un terme.
+\noind Une valuation $\sigma$ est une fonction à domaine fini $\{x_1, x_2, \dots,x_n \} \in \X^n$ où les $x_i$ sont deux à deux distinctes, qui associe à chaque $x_i$ un élément de $E \in \d$. L'ensemble des valuation est noté $\Upsilon$. On peut alors évaluer un terme.
 \begin{itemize}
 \item Si $x$ est un symbole de variable, $\scal{x \vert \sigma}_I = \sigma(x)$.
 \item Si $s$ est un symbole de signature d'arité $n$ et $t_1, t_2, \dots, t_n$ sont des termes, 
@@ -118,11 +119,22 @@ $$ \forall P \in \P, \; \ent{P}_I \in \f'_{\d_I, n}, \; \mbox{où $P$ est d'arité
 $$\scal{s(t_1, t_2, \dots,t_n) \vert \sigma}_I = \ent{s}_I\left(\scal{t_1 \vert \sigma}_I, \scal{t_2 \vert \sigma}_I, \dots, \scal{t_n \vert \sigma}_I\right)$$
 \end{itemize}
 
-\noind On peut alors définir la validité d'une formule selon l'interprétation $I$ et la valuation $\sigma$, que l'on note $I\valide_\sigma F$.
+\noind On peut alors définir la validité d'une formule selon l'interprétation $I$ et la valuation $\sigma$, que l'on note $I\valide_\sigma F$. Si $F, F_1, F_2$ sont des formules, $P$ est un symbole de prédicat d'arité $n$ et $t_1, t_2, \dots, t_n$ sont des termes, alors
 \begin{itemize}
-\item Si $P$ est un symbole de prédicat d'arité $n$ et $ I \valide _\sigma P$
+\item $ I \valide _\sigma P(t_1, t_2, \dots, t_n) \Leftrightarrow \ent{P}_I(\scal{t_1 \vert \sigma}_I, \scal{t_2 \vert \sigma}_I, \dots, \scal{t_n \vert \sigma}_I) = 1$
+\item $ I \valide_\sigma \not{F} \Leftrightarrow I \nvalide_\sigma F$
+\item $ I \valide_\sigma (F_1) \and (F_2) \Leftrightarrow I \valide_\sigma F_1 \;\mathrm{et}\; I \valide_\sigma F_2$
+\item $ I \valide_\sigma (F_1) \or (F_2) \Leftrightarrow I \valide_\sigma F_1 \;\mathrm{ou}\; I \valide_\sigma F_2$
+\item $ I \valide_\sigma (F_1) \imply (F_2) \Leftrightarrow I \nvalide_\sigma F_1 \;\mathrm{ou}\; I \valide_\sigma F_2$
+\item $ I \valide_\sigma \forall x \in D, (F) \Leftrightarrow \forall a \in \ent{D}_I, I \nvalide_{\sigma_{\{x \leftarrow a\}}} F$
+\item $ I \valide_\sigma \exists x \in D, (F) \Leftrightarrow \exists a \in \ent{D}_I, I \nvalide_{\sigma_{\{x \leftarrow a\}}} F$\\
 \end{itemize}
 
+\noind On conclue en définissant 
+
+$$ I \valide F \Leftrightarrow \forall \sigma \in \Upsilon, \; I \valide_\sigma F.$$
+
+\noind On sait maintenant dire qu'une formule est valide, dans une certaine interprétation, de manière \textit{empirique}. En effet, la preuve de validité passe ici par l'énumération exhaustive de tous les cas possibles pour une interprétation donnée. On a choisi cette méthode de preuve, car on dispose d'un générateur de variables aléatoires. Comme de toute façon il est rarement possible de tester tous les cas, on part du principe qu'effectuer des tests sur des exemples suffisamment communs et représentatifs suffit pour avoir une assez grande certitude que le programme que l'on tests fonctionne\footnote{Cela s'apparente à une machine de \textit{Monte-Carlo} qui, renvoyant un contre-exemple prouve que le programme est faux, et sinon donne une certaine probabilité que le programme soit juste}.
 
 
 

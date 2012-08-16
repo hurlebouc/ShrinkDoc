@@ -8,16 +8,18 @@
 \item $\codom : \C \rightarrow \T$ donne le \textit{codomaine} d'un constructeur.\\
 \end{itemize}
 
-\noind L'\textit{arité} d'un constructeur $c \in \C$ est l'entier $n$ tel que $\dom(c) \in \T^n$. On peut maintenant définir par induction ce qu'est un \textit{terme algébrique}.
+\noind L'\textit{arité} d'un constructeur $c \in \C$ est l'entier $n$ tel que $\dom(c) \in \T^n$. On peut maintenant définir par induction ce qu'est un \textit{\ta}.
 \begin{itemize}
 \item Tout constructeur d'arité nulle est un terme.
-\item Pour tout constructeur $c \in \C$ d'arité $n$ et les termes algébriques $t_1, t_2, \dots, t_n$, alors $c(t_1, t_2, \dots, t_n)$ est un terme.
+\item Pour tout constructeur $c \in \C$ d'arité $n$ et les \tas $t_1, t_2, \dots, t_n$, alors $c(t_1, t_2, \dots, t_n)$ est un terme.
 \end{itemize}
-L'ensemble des termes algébriques sur la signature $s$ est noté $\t_s$. La taille d'un terme algébrique et le nombre de constructeurs le composant, ou encore 
+L'ensemble des \tas sur la signature $s$ est noté $\t_s$. Si $t = c(t1_, t_2, \dots, t_n)$, on dira que $c$ est le constructeur de $t$ et que $t_1, t_2, \dots, t_n$ sont ses \textit{\stds}\!\!. De même, un \textit{\st\!} de $t$ est soit un \std de $t$ soit un \st d'un des \stds de $t$.
+
+\noind De plus, on dira qu'un \ta $t$ \textit{dérive} d'un type $T\in \T$ \ssi le constructeur de $t$ a $T$ pour codomaine. Enfin, la taille d'un \ta est le nombre de constructeurs le composant, ou encore 
 
 $$\forall t = c(t_1, t_2, \dots, t_n) \in \t_s, \; \size(t) = 1 + \sum_{i=1}^n \size(t_i). $$
 
-\noind Ainsi, à partir d'un terme algébrique $t \in \t_s$ faisant échouer la validation de la formule, on cherche à construire un terme algébrique $t'$ de plus petite taille continuant de faire échouer la validation.
+\noind Ainsi, à partir d'un \ta $t \in \t_s$ faisant échouer la validation de la formule, on cherche à construire un \ta $t'$ de plus petite taille continuant de faire échouer la validation.
 
 
 

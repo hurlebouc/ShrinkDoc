@@ -88,7 +88,7 @@ $$\forall n \in \N, \; \f_{\d, n} = \displaystyle{\bigcup_{E \in \d^n,F \in \d}}
 
 \noind $\f_{\d,n}$ est donc l'ensemble des fonctions d'arité $n$ dont le codomaine et le domaine sont des éléments de $\d$ et de $\d^n$, et $\f'_{\d, n}$ est l'ensemble des fonctions d'arité $n$ de codomaine $\{0,1\}$ et de domaine dans $\d^{n}$.
 
-\noind On peut interpréter une formule syntaxique issue d'un ensemble de signatures $\S$, de prédicats $\P$ et de domaine $\D$ en lui associant une \textit{interprétation} $I$ qui est la connaissance d'un couple $(\d_I, \ent{\cdot}_I)$ où
+\noind On peut interpréter une formule syntaxique issue d'un ensemble de signatures $\S$, de prédicats $\P$ et de domaines $\D$ en lui associant une \textit{interprétation} $I$ qui est la connaissance d'un couple $(\d_I, \ent{\cdot}_I)$ où
 \begin{itemize}
 \item $\d_I$ est un ensemble de domaine
 \item $\ent{\cdot}_I$ est une fonction telle que 
@@ -103,6 +103,7 @@ $$ \forall D \in \D, \; \ent{D}_I \in \d_I.$$
 \noind Ainsi, si on applique ce formalisme à notre exemple, on a 
 \begin{itemize}
 \item $\d_I = \{\N\}$
+\item $\ent{D}_I = \N$
 \item $\ent{f}_I : x\in \N \rightarrow x+1 \in \N$
 \item $\ent{P}_I : x \in \N \rightarrow 1$ si $x$ est pair et $0$ sinon
 \item $\ent{Q}_I : x \in \N \rightarrow 0$ si $x$ est pair et $1$ sinon.\\
@@ -112,7 +113,7 @@ $$ \forall D \in \D, \; \ent{D}_I \in \d_I.$$
 
 \subsubsection{Évaluation d'une formule}
 
-\noind On va traité ici la question de savoir comment, étant donné une formule et une interprétation, on peut affirmer qu'une formule est \textit{valide} ou non selon l'interprétation, que l'on note $I \valide F$. On introduit alors la notion de \textit{valuation}. 
+\noind On va traiter ici la question de savoir comment, étant donnée une formule et une interprétation, on peut affirmer qu'une formule est \textit{valide} ou non selon l'interprétation, que l'on note $I \valide F$. On introduit alors la notion de \textit{valuation}. 
 
 \noind Une valuation $\sigma$ est une fonction à domaine fini $\{x_1, x_2, \dots,x_n \} \in \X^n$ où les $x_i$ sont deux à deux distinctes, qui associe à chaque $x_i$ un élément de $E \in \d$. L'ensemble des valuation est noté $\Upsilon$. On peut alors évaluer un terme.
 \begin{itemize}
@@ -137,13 +138,35 @@ $$\scal{s(t_1, t_2, \dots,t_n) \vert \sigma}_I = \ent{s}_I\left(\scal{t_1 \vert 
 
 $$ I \valide F \Leftrightarrow \forall \sigma \in \Upsilon, \; I \valide_\sigma F.$$
 
-\noind On sait maintenant dire qu'une formule est valide, dans une certaine interprétation, de manière \textit{empirique}. En effet, la preuve de validité passe ici par l'énumération exhaustive de tous les cas possibles pour une interprétation donnée. On a choisi cette méthode de preuve, car on dispose d'un générateur de variables aléatoires. Comme de toute façon il est rarement possible de tester tous les cas, on part du principe qu'effectuer des tests sur des exemples suffisamment communs et représentatifs suffit pour avoir une assez grande certitude que le programme que l'on tests fonctionne\footnote{Cela s'apparente à une machine de \textit{Monte-Carlo} qui, renvoyant un contre-exemple prouve que le programme est faux, et sinon donne une certaine probabilité que le programme soit juste}.
+\noind On sait maintenant dire qu'une formule est valide, dans une certaine interprétation, de manière \textit{empirique}. En effet, la preuve de validité passe ici par l'énumération exhaustive de tous les cas possibles pour une interprétation donnée. On a choisi cette méthode de preuve, car on dispose d'un générateur de variables aléatoires. Comme de toute façon il est rarement possible de tester tous les cas, on part du principe qu'effectuer des tests sur des exemples suffisamment communs et représentatifs suffit pour avoir une assez grande certitude que le programme que l'on tests fonctionne\footnote{Cela s'apparente à une machine de \textit{Monte-Carlo} qui, renvoyant un contre-exemple prouve que le programme est faux, et sinon donne une certaine probabilité que le programme soit juste}.\\
 
-\noind Ainsi, sur notre exemple, on souhaite montrer que l'interprétation valide la formule.
+\noind Ainsi, sur notre exemple, on souhaite montrer que l'interprétation valide la formule. En premier lieu, on remarque que la phrase $I \valide_{\sigma} F$ ne dépend pas de $\sigma$. En effet, $F$ est une formule close, c'est à dire que toutes les variables présentes dans cette formule sont liées. Pour montrer $I \valide F$, il suffit de le montrer sur la valuation dont l'ensemble de départ est vide.
 
-\subsubsection{Implémentation java}
+\noind D'autre part, notre formule est de la forme $\forall x \in D, (F')$ : on doit donc montrer que $(F')$
+est vraie pour toute valuation remplaçant la variable $x$ par une valeur dans $\ent{D}_I = \N$. C'est là que va intervenir le générateur de termes aléatoires.
 
 
+\subsubsection{Implémentation JAVA}
+
+\noind On va ici reprendre les concepts vu dans les parties précédentes et voir comment les implémenter. Si l'on veut produire quelque chose de modulable, on choisit un système permettant à l'utilisateur de facilement adapter la théorie à la pratique. Ainsi, le premier point est de permettre d'ajouter un sens aux symboles de la formule. Après avoir écrit la formule dans le formalisme de \gom comme dans l'exemple du listing \ref{f1}, on obtient un objet de type \texttt{Formula}. Le logiciel lit ensuite cet objet et va faire correspondre à chaque symbole lu une signification. On a donc choisi d'utiliser plusieurs \texttt{Map} dont les entrées sont les différents symboles, et les sorties sont les objets porteurs de sens. 
+
+\noind Ces derniers objets sont chacun d'un type donné en fonction du symbole dont il porte la signification. On a procédé ainsi :
+\begin{itemize}
+\item toutes les évaluations de termes seront du type \texttt{ATerm}.
+\item les symboles de prédicats de l'ensemble $\P$ correspondent à des objets implémentant l'interface \texttt{PredicatInterpretation}. Chacune de ces interpretations doit alors fournir une méthode \texttt{isTrue} qui prend en paramètre une liste d'évaluations des termes que le symbole de prédicat $P$ a comme paramètre dans la formule, et qui renvoie \texttt{true} \ssi on décide que $P$ est vrai dans ce cas, et \texttt{false} sinon.
+\item les symboles de signature de l'ensemble $\S$ correspondent à des objet implémentant l'interface \texttt{SignatureInterpretation}. Chacune de ces interprétations doit fournir une méthode \texttt{compute} qui à une liste de termes associe la valeur souhaité de l'interprétation du symbole dans ce cas.
+\item les symboles de domaines de l'ensemble $\D$ correspondent à des objets implémentant l'interface \texttt{DomainInterpretation}. Chacune de ces interpretations doit fournir quatres méthode :
+	\begin{itemize}
+	\item \texttt{includes} qui répond \texttt{true} \ssi l'objet passé en paramètre appartient au domaine correspondant.
+	\item \texttt{getDepsDomains} qui donne tous les domaines dont dépend le terme courant. Par exemple si on souhaite donner l'interprétation du domaine \texttt{Term} du listing \ref{formule}, la méthode \texttt{getDepsDomains} doit renvoyer une liste comportant uniquement \texttt{Args} et \texttt{String}.
+	\item \texttt{lighten} qui prend un terme appartenant au domaine et renvoie tous les sous termes que l'on peut construire à partir de celui en paramètre en remplaçant sont constructeur par un constructeur plus \textit{petit}. Cette méthode sera détaillée plus loin dans la partie traitant de la réduction des contre-exemples.
+	\item \texttt{chooseElement} qui prend un entier $n$ en paramètre et renvoie un éléments du domaine (toujours sous forme de \texttt{ATerm}) dont la taille este l'ordre de $n$. C'est là que l'on utilise la fonction de génération automatique de termes aléatoires. Cette méthode sera employée lorsque l'on cherchera à démontrer la validité de formule dans l'interprétation donnée. En effet, lorsque le testeur rencontrera une formule de la forme "$\forall x \in D, \; (F)$", il générera des termes $x$ de $D$ qu'il injectera dans la formule $F$ pour vérifier sa validité.\\
+	\end{itemize}
+\end{itemize}
+
+\noind Ces renseignements donnés, il est alors facile de tester la validité d'une formule et utilisant la description formelle vue plus haut et en admettant la simplification du problème de tests sur seulement un échantillon bien réparti. 
+
+\noind On peut même faire plus que cela. Si le processus de validation échoue sur sur une valuation, c'est à dire un contre-exemple, on s'est donné les moyens de \textit{réduire} ce contre-exemple pour éventuellement résoudre le bug plus facilement.
 
 
 

@@ -84,7 +84,7 @@ Forall("x",
 
 
 \noind On définit d'abord $\d$ un ensemble de domaines et on pose
-$$\forall n \in \N, \; \f_{\d, n} = \displaystyle{\bigcup_{E \in \d^n,F \in \d}} F^{E} \; \mathrm{et} \; \f'_{\d,n} = \displaystyle{\bigcup_{E \in \d^n}} \{0,1\}^{E}.$$
+$$\forall n \in \N, \; \f_{\d, n} \define \displaystyle{\bigcup_{E \in \d^n,F \in \d}} F^{E} \; \mathrm{et} \; \f'_{\d,n} \define \displaystyle{\bigcup_{E \in \d^n}} \{0,1\}^{E}.$$
 
 \noind $\f_{\d,n}$ est donc l'ensemble des fonctions d'arité $n$ dont le codomaine et le domaine sont des éléments de $\d$ et de $\d^n$, et $\f'_{\d, n}$ est l'ensemble des fonctions d'arité $n$ de codomaine $\{0,1\}$ et de domaine dans $\d^{n}$.
 
@@ -152,15 +152,30 @@ est vraie pour toute valuation remplaçant la variable $x$ par une valeur dans $\
 
 \noind Ces derniers objets sont chacun d'un type donné en fonction du symbole dont il porte la signification. On a procédé ainsi :
 \begin{itemize}
-\item toutes les évaluations de termes seront du type \texttt{ATerm}.
+\item toutes les évaluations de termes seront du type \texttt{ATerm} : 
+
+$$ \forall t \in \T, \; \scal{t \vert \sigma}_I \mbox{est un \texttt{ATerm}}.$$
+
 \item les symboles de prédicats de l'ensemble $\P$ correspondent à des objets implémentant l'interface \texttt{PredicatInterpretation}. Chacune de ces interpretations doit alors fournir une méthode \texttt{isTrue} qui prend en paramètre une liste d'évaluations des termes que le symbole de prédicat $P$ a comme paramètre dans la formule, et qui renvoie \texttt{true} \ssi on décide que $P$ est vrai dans ce cas, et \texttt{false} sinon.
+
+$$ \forall P \in \P, \; \ent{P}_I : \mathtt{ATerm}^n \rightarrow \{0,1\} \mbox{ où $P$ est d'arité $n$}.$$
+
 \item les symboles de signature de l'ensemble $\S$ correspondent à des objet implémentant l'interface \texttt{SignatureInterpretation}. Chacune de ces interprétations doit fournir une méthode \texttt{compute} qui à une liste de termes associe la valeur souhaité de l'interprétation du symbole dans ce cas.
+
+$$ \forall s \in \S, \; \ent{s}_I : \mathtt{ATerm}^n \rightarrow \mathtt{ATerm} \mbox{ où $s$ est d'arité $n$}.$$
+
 \item les symboles de domaines de l'ensemble $\D$ correspondent à des objets implémentant l'interface \texttt{DomainInterpretation}. Chacune de ces interpretations doit fournir quatres méthode :
 	\begin{itemize}
 	\item \texttt{includes} qui répond \texttt{true} \ssi l'objet passé en paramètre appartient au domaine correspondant.
-	\item \texttt{getDepsDomains} qui donne tous les domaines dont dépend le terme courant. Par exemple si on souhaite donner l'interprétation du domaine \texttt{Term} du listing \ref{formule}, la méthode \texttt{getDepsDomains} doit renvoyer une liste comportant uniquement \texttt{Args} et \texttt{String}.
+	
+	$$ \forall D \in \D, \forall x \in \X, \forall \sigma \in \Upsilon, \; \scal{x | \sigma}_I \in \ent{D}_I \Leftrightarrow \mathtt{includes}( \scal{x | \sigma}_I ) = \mathtt{true}$$
+	
+	\item \texttt{getDepsDomains} qui donne tous les domaines dont dépend le terme courant. Par exemple si on souhaite donner l'interprétation du domaine \texttt{Term} du listing \ref{formule}, la méthode \texttt{getDepsDomains} doit renvoyer une liste comportant uniquement \texttt{Args} et \texttt{String}.	
 	\item \texttt{lighten} qui prend un terme appartenant au domaine et renvoie tous les sous termes que l'on peut construire à partir de celui en paramètre en remplaçant sont constructeur par un constructeur plus \textit{petit}. Cette méthode sera détaillée plus loin dans la partie traitant de la réduction des contre-exemples.
-	\item \texttt{chooseElement} qui prend un entier $n$ en paramètre et renvoie un éléments du domaine (toujours sous forme de \texttt{ATerm}) dont la taille este l'ordre de $n$. C'est là que l'on utilise la fonction de génération automatique de termes aléatoires. Cette méthode sera employée lorsque l'on cherchera à démontrer la validité de formule dans l'interprétation donnée. En effet, lorsque le testeur rencontrera une formule de la forme "$\forall x \in D, \; (F)$", il générera des termes $x$ de $D$ qu'il injectera dans la formule $F$ pour vérifier sa validité.\\
+	\item \texttt{chooseElement} qui prend un entier $n$ en paramètre et renvoie un éléments du domaine (toujours sous forme de \texttt{ATerm}) dont la taille este l'ordre de $n$. C'est là que l'on utilise la fonction de génération automatique de termes aléatoires. Cette méthode sera employée lorsque l'on cherchera à démontrer la validité de formule dans l'interprétation donnée. En effet, lorsque le testeur rencontrera une formule de la forme "$\forall x \in D, \; (F)$", il générera des termes $x$ de $D$ qu'il injectera dans la formule $F$ pour vérifier sa validité.
+	
+	$$ \forall D\in \D, \; \mathtt{include(chooseElement(\mathit{n})) = true} $$
+	
 	\end{itemize}
 \end{itemize}
 

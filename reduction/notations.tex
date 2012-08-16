@@ -1,0 +1,36 @@
+% !TEX root = ../shrink.tex
+
+\noind On défini une \textit{signature} $s \in \S $ comme le quadruplet $(\T, \C, \dom, \codom)$ où
+\begin{itemize}
+\item $\T$ est un ensemble de \textit{types},
+\item $\C$ est un ensemble de \textit{constructeurs},
+\item $\dom : \C \rightarrow \displaystyle{\bigcup_{n \in \N}} \T^n$ donne le \textit{domaine} d'un constructeur,
+\item $\codom : \C \rightarrow \T$ donne le \textit{codomaine} d'un constructeur.\\
+\end{itemize}
+
+\noind L'\textit{arité} d'un constructeur $c \in \C$ est l'entier $n$ tel que $\dom(c) \in \T^n$. On peut maintenant définir par induction ce qu'est un \textit{terme algébrique}.
+\begin{itemize}
+\item Tout constructeur d'arité nulle est un terme.
+\item Pour tout constructeur $c \in \C$ d'arité $n$ et les termes algébriques $t_1, t_2, \dots, t_n$, alors $c(t_1, t_2, \dots, t_n)$ est un terme.
+\end{itemize}
+L'ensemble des termes algébriques sur la signature $s$ est noté $\t_s$. La taille d'un terme algébrique et le nombre de constructeurs le composant, ou encore 
+
+$$\forall t = c(t_1, t_2, \dots, t_n) \in \t_s, \; \size(t) = 1 + \sum_{i=1}^n \size(t_i). $$
+
+\noind Ainsi, à partir d'un terme algébrique $t \in \t_s$ faisant échouer la validation de la formule, on cherche à construire un terme algébrique $t'$ de plus petite taille continuant de faire échouer la validation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

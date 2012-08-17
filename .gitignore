@@ -8,3 +8,4 @@ shrink.out
 *.log
 *.make
 *.d
+*.dvi

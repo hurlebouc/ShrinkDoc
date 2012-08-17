@@ -1,3 +1,40 @@
 % !TEX root = ../shrink.tex
 
-\noind Une première méthode \texttt{s1} permettant de réduire un \ta $t$ consiste à remplacer $t$ par l'un de ses \sts\!. On procède pour cela en deux étapes. 
+\noind Une première méthode \texttt{s1} permettant de réduire un \ta $t$ consiste à remplacer $t$ par l'un de ses \sts dérivant du même type. On procède pour cela en plusieurs étapes. 
+\begin{enumerate}
+\item On récupère tous les \sts dérivant du même type qui minimise la distance entre eux et la racine. L'ensemble $A_t$ de ces termes est
+
+$$ A_t = \{ t' \in \ST(t) \cap \DERIVE(t) \; \vert \; \nexists t'' \neq t', \exists a \in \N^\N,  \omega_{t, t'} = \omega_{t, t''}a\}$$ 
+\item On filtre $A_t$ en supprimant tous les \tas qui ne sont pas des contre-exemples. Si le résultat est l'ensemble vide, on lui ajoute $t$. Finalement, on obtient $f(A_t)$.\\
+\end{enumerate}
+
+\noind On a donc créé une fonction \texttt{s1\_aux} qui à un \ta $t$ associe $f(A_t)$. On construit alors \texttt{s1} en itérant \texttt{s1\_aux} sur chacun des termes de \texttt{s1\_aux}$(t)$ jusqu'à convergence.
+
+\begin{enumerate}
+	\item initialiser $E \define {t}$;
+	\item initialiser un nouvel ensemble vide $E'$.
+	\item pour tout élément $t'$ dans $E$
+	\begin{enumerate}
+		\item ajouter le résultat de \texttt{s1\_aux}$(t')$ à $E'$.
+	\end{enumerate}
+	\item si $E = E'$
+	\begin{enumerate}
+		\item alors on s'arrête
+		\item sinon on pose $E \define E'$ et on revient à 3
+	\end{enumerate}
+\end{enumerate}
+
+\noind La convergence de cet \algo ne fait pas de doute : Pour s'en convaincre, si $\left(E_n\right)_{n\in \N}$ est la suite des $E$ de l\algo\!, on peut considérer la différence symétrique $ \delta_n = E_n \triangle E_{n+1}$. L'\algo est effectué de telle sorte que dès que un élément est présent dans $E_n$ et dans $E_{n+1}$ (il ne fait donc plus partie de $\delta_n$), alors il reste présent pour tout $n' > n$. On peut donc se contenter de réitère \texttt{s1\_aux} sur les éléments de $\delta_n \cap E_{n+1}$. On se rend alors compte que la taille maximal des éléments de $\delta_n$ décroit strictement entre deux $\delta_n$ non vides successifs, ce qui impose qu'il existe un $n$ tel que $\delta_n$ soit vide, c'est à dire que $E_n = E_{n+1}$.
+
+
+
+
+
+
+
+
+
+
+
+
+

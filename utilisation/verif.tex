@@ -19,7 +19,7 @@ L'ensembles de termes est noté $\term$.\\
 \noind Enfin, on peut définir, également de manière inductive, l'ensemble $\F$ des formules : étant donné $\predicat$ un ensemble de symboles de prédicats et $\D$ est un ensemble de symboles de domaines, on a que
 \begin{itemize}
 \item tout prédicat d'arité 0 est une formule,
-\item si $P$ est un symbole de prédicat d'arité $n$, et que $t_1, t_2, \dots, t_n$ sont des termes, alors $P(t_1, t_2, \dots, t_n)$ est un formule,
+\item si $P$ est un symbole de prédicat d'arité $n$, et que $t_1, t_2, \dots, t_n$ sont des termes, alors $P(t_1, t_2, \dots, t_n)$ est une formule,
 \item si $F_1$ et $F_2$ sont des formules, alors $(F_1) \AND (F_2)$, $(F_1) \OR (F_2)$ et $ (F_1) \IMPLY (F_2)$ sont des formules,
 \item si $F$ est une formule, $\NOT{F}$ est une formule,
 \item si $f$ est une formule et $D$ un symbole de domaine, $\forall x \in D, \; (F)$ et $\exists x \in D, \; (F)$ sont des formules.\\
@@ -115,7 +115,7 @@ $$ \forall D \in \D, \; \ent{D}_I \in \d_I.$$
 
 \noind On va traiter ici la question de savoir comment, étant donnée une formule et une interprétation, on peut affirmer qu'une formule est \textit{valide} ou non selon l'interprétation, que l'on note $I \valide F$. On introduit alors la notion de \textit{valuation}. 
 
-\noind Une valuation $\sigma$ est une fonction à domaine fini $\{x_1, x_2, \dots,x_n \} \in \X^n$ où les $x_i$ sont deux à deux distinctes, qui associe à chaque $x_i$ un élément de $E \in \d$. L'ensemble des valuation est noté $\Upsilon$. On peut alors évaluer un terme.
+\noind Une valuation $\sigma$ est une fonction à domaine fini $\{x_1, x_2, \dots,x_n \} \in \X^n$ où les $x_i$ sont deux à deux distinctes, qui associe à chaque $x_i$ un élément de $E \in \d$. L'ensemble des valuations est noté $\Upsilon$. On peut alors évaluer un terme.
 \begin{itemize}
 \item Si $x$ est un symbole de variable, $\scal{x \vert \sigma}_I = \sigma(x)$.
 \item Si $s$ est un symbole de signature d'arité $n$ et $t_1, t_2, \dots, t_n$ sont des termes, 
@@ -138,7 +138,7 @@ $$\scal{s(t_1, t_2, \dots,t_n) \vert \sigma}_I = \ent{s}_I\left(\scal{t_1 \vert 
 
 $$ I \valide F \Leftrightarrow \forall \sigma \in \Upsilon, \; I \valide_\sigma F.$$
 
-\noind On sait maintenant dire qu'une formule est valide, dans une certaine interprétation, de manière \textit{empirique}. En effet, la preuve de validité passe ici par l'énumération exhaustive de tous les cas possibles pour une interprétation donnée. On a choisi cette méthode de preuve, car on dispose d'un générateur de variables aléatoires. Comme de toute façon il est rarement possible de tester tous les cas, on part du principe qu'effectuer des tests sur des exemples suffisamment communs et représentatifs suffit pour avoir une assez grande certitude que le programme que l'on tests fonctionne\footnote{Cela s'apparente à une machine de \textit{Monte-Carlo} qui, renvoyant un contre-exemple prouve que le programme est faux, et sinon donne une certaine probabilité que le programme soit juste}.\\
+\noind On sait maintenant dire qu'une formule est valide, dans une certaine interprétation, de manière \textit{empirique}. En effet, la preuve de validité passe ici par l'énumération exhaustive de tous les cas possibles pour une interprétation donnée. On a choisi cette méthode de preuve, car on dispose d'un générateur de variables aléatoires. Comme de toute façon il est rarement possible de tester tous les cas, on part du principe qu'effectuer des tests sur des exemples suffisamment communs et représentatifs suffit pour avoir une assez grande certitude que le programme que l'on test fonctionne\footnote{Cela s'apparente à une machine de \textit{Monte-Carlo} qui, renvoyant un contre-exemple prouve que le programme est faux, et sinon donne une certaine probabilité que le programme soit juste}.\\
 
 \noind Ainsi, sur notre exemple, on souhaite montrer que l'interprétation valide la formule. En premier lieu, on remarque que la phrase $I \valide_{\sigma} F$ ne dépend pas de $\sigma$. En effet, $F$ est une formule close, c'est à dire que toutes les variables présentes dans cette formule sont liées. Pour montrer $I \valide F$, il suffit de le montrer sur la valuation dont l'ensemble de départ est vide.
 
@@ -160,7 +160,7 @@ $$ \forall t \in \term, \; \scal{t \vert \sigma}_I \mbox{est un \texttt{ATerm}}.
 
 $$ \forall P \in \predicat, \; \ent{P}_I : \mathtt{ATerm}^n \rightarrow \{0,1\} \mbox{ où $P$ est d'arité $n$}.$$
 
-\item les symboles de signature de l'ensemble $\sig$ correspondent à des objet implémentant l'interface \texttt{SignatureInterpretation}. Chacune de ces interprétations doit fournir une méthode \texttt{compute} qui à une liste de termes associe la valeur souhaité de l'interprétation du symbole dans ce cas.
+\item les symboles de signature de l'ensemble $\sig$ correspondent à des objets implémentant l'interface \texttt{SignatureInterpretation}. Chacune de ces interprétations doit fournir une méthode \texttt{compute} qui à une liste de termes associe la valeur souhaitée de l'interprétation du symbole dans ce cas.
 
 $$ \forall s \in \sig, \; \ent{s}_I : \mathtt{ATerm}^n \rightarrow \mathtt{ATerm} \mbox{ où $s$ est d'arité $n$}.$$
 
@@ -171,8 +171,8 @@ $$ \forall s \in \sig, \; \ent{s}_I : \mathtt{ATerm}^n \rightarrow \mathtt{ATerm
 	$$ \forall D \in \D, \forall x \in \X, \forall \sigma \in \Upsilon, \; \scal{x | \sigma}_I \in \ent{D}_I \Leftrightarrow \mathtt{includes}( \scal{x | \sigma}_I ) = \mathtt{true}$$
 	
 	\item \texttt{getDepsDomains} qui donne tous les domaines dont dépend le terme courant. Par exemple si on souhaite donner l'interprétation du domaine \texttt{Term} du listing \ref{formule}, la méthode \texttt{getDepsDomains} doit renvoyer une liste comportant uniquement \texttt{Args} et \texttt{String}.	
-	\item \texttt{lighten} qui prend un terme appartenant au domaine et renvoie tous les sous termes que l'on peut construire à partir de celui en paramètre en remplaçant sont constructeur par un constructeur plus \textit{petit}. Cette méthode sera détaillée plus loin dans la partie traitant de la réduction des contre-exemples.
-	\item \texttt{chooseElement} qui prend un entier $n$ en paramètre et renvoie un éléments du domaine (toujours sous forme de \texttt{ATerm}) dont la taille este l'ordre de $n$. C'est là que l'on utilise la fonction de génération automatique de termes aléatoires. Cette méthode sera employée lorsque l'on cherchera à démontrer la validité de formule dans l'interprétation donnée. En effet, lorsque le testeur rencontrera une formule de la forme "$\forall x \in D, \; (F)$", il générera des termes $x$ de $D$ qu'il injectera dans la formule $F$ pour vérifier sa validité.
+	\item \texttt{lighten} qui prend un terme appartenant au domaine et renvoie tous les sous termes que l'on peut construire à partir de celui en paramètre en remplaçant son constructeur par un constructeur plus \textit{petit}. Cette méthode sera détaillée plus loin dans la partie traitant de la réduction des contre-exemples.
+	\item \texttt{chooseElement} qui prend un entier $n$ en paramètre et renvoie un éléments du domaine (toujours sous forme de \texttt{ATerm}) dont la taille est de l'ordre de $n$. C'est là que l'on utilise la fonction de génération automatique de termes aléatoires. Cette méthode sera employée lorsque l'on cherchera à démontrer la validité de formules dans l'interprétation donnée. En effet, lorsque le testeur rencontrera une formule de la forme "$\forall x \in D, \; (F)$", il générera des termes $x$ de $D$ qu'il injectera dans la formule $F$ pour vérifier sa validité. On a par ailleurs 
 	
 	$$ \forall D\in \D, \; \mathtt{include(chooseElement(\mathit{n})) = true} $$
 	

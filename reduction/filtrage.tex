@@ -28,7 +28,7 @@ $$
 
 \noind La convergence de cet \algo ne fait pas de doute : Pour s'en convaincre, si $\left(E_n\right)_{n\in \N}$ est la suite des $E$ de l'\algo\!, on peut considérer la différence symétrique $ \delta_n = E_n \triangle E_{n+1}$. L'\algo est effectué de telle sorte que dès que un élément est présent dans $E_n$ et dans $E_{n+1}$ (il ne fait donc plus partie de $\delta_n$), alors il reste présent pour tout $n' > n$. On peut donc se contenter de réitèrer \texttt{s1\_aux} sur les éléments de $\delta_n \cap E_{n+1}$. On se rend alors compte que la taille maximale des éléments de $\delta_n$ décroit strictement entre deux $\delta_n$ non vides successifs, ce qui impose qu'il existe un $n$ tel que $\delta_n$ soit vide, c'est à dire que $E_n = E_{n+1}$.\\
 
-\noind En ce qui concerne $f \circ \mathtt{s2Depth}(\cdot, d)$, on a pas besoin de réitérer l'\algo car on travail exclusivement sur les constructeurs du type de la racine : $$ \mathtt{s2}' = f \circ \mathtt{s2Depth}.$$
+\noind En ce qui concerne $f \circ \mathtt{s2Depth}(\cdot, d)$, on n'a pas besoin de réitérer l'\algo car on travaille exclusivement sur les constructeurs du type de la racine : $$ \mathtt{s2}' = f \circ \mathtt{s2Depth}.$$
 
 
 

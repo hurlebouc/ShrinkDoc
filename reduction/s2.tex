@@ -1,6 +1,6 @@
 % !TEX root = ../shrink.tex
 
-\noind Le second \algo \texttt{s2} est indépendant de \texttt{s1} mais cherche toujours à diminuer la taille de l'élément de départ. Cette fois ci, on raisonne uniquement au niveau de la racine du terme $t$. On cherche tous les constructeur du type dont dérive $t$ qui sont \textit{inclus} dans le constructeur de $t$. Par \textit{inclus}, on veut dire que, si $n_{c,T}$ est le nombre d'argument du constructeur $c$ de type $T$, 
+\noind Le second \algo \texttt{s2} est indépendant de \texttt{s1} mais cherche toujours à diminuer la taille de l'élément de départ. Cette fois ci, on raisonne uniquement au niveau de la racine du terme $t$. On cherche tous les constructeurs du type dont dérive $t$ qui sont \textit{inclus} dans le constructeur de $t$. Par \textit{inclus}, on veut dire que, si $n_{c,T}$ est le nombre d'arguments du constructeur $c$ de type $T$, 
 
 $$ \forall c_1, c_2 \in \cons, \; \mbox{$c_1$ est inclus dans $c_2$} \Leftrightarrow \forall T \in \type, \; n_{c_1, T} \leqslant n_{c_2, T}.$$
 

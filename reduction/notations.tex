@@ -1,6 +1,6 @@
 % !TEX root = ../shrink.tex
 
-\noind On défini une \textit{signature} $s \in \sig $ comme le quadruplet $(\type, \cons, \dom, \codom)$ où
+\noind On définit une \textit{signature} $s \in \sig $ comme le quadruplet $(\type, \cons, \dom, \codom)$ où
 \begin{itemize}
 \item $\type$ est un ensemble de \textit{types},
 \item $\cons$ est un ensemble de \textit{constructeurs},
@@ -24,9 +24,9 @@ $$
 		\end{array}
 	\right.
 $$
-\noind De par la structure d'arbre d'un terme, tout chemin entre deux \tas est unique. On peut donc définir la distance entre un \ta et l'un de ses \st comme la longueur du chemin les séparant. On utilisera également la concaténation de suites finies : si $\omega$ est une suite finie et $a$ une suite, alors $\omega a$ est la suites concaténée de $\omega$ et de $a$.\\
+\noind De par la structure d'arbre d'un terme, tout chemin entre deux \tas est unique. On peut donc définir la distance entre un \ta et l'un de ses \st comme la longueur du chemin les séparant. On utilisera également la concaténation de suites finies : si $\omega$ est une suite finie et $a$ une suite, alors $\omega a$ est la suite concaténée de $\omega$ et de $a$.\\
 
-\noind De plus, on dira qu'un \ta $t$ \textit{dérive} d'un type $T\in \type$ \ssi le constructeur de $t$ a $T$ pour codomaine. L'ensemble des \ta dérivant d'un type $T$ est noté $\DERIVE(T)$. On étendra cette notation aux termes : pour tout $t \in \term_s, \; \DERIVE(t)$ est l'ensembles des \ta dérivant du même type que $t$.\\
+\noind De plus, on dira qu'un \ta $t$ \textit{dérive} d'un type $T\in \type$ \ssi le constructeur de $t$ a $T$ pour codomaine. L'ensemble des \tas dérivant d'un type $T$ est noté $\DERIVE(T)$. On étendra cette notation aux termes : pour tout $t \in \term_s, \; \DERIVE(t)$ est l'ensemble des \tas dérivant du même type que $t$.\\
 
 \noind On pose également que la \textit{taille} d'un \ta est le nombre de constructeurs le composant, ou encore 
 
